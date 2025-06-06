@@ -1,1 +1,1832 @@
-# S1_Akuntansi
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi Akuntansi Persediaan</title>
+    <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+    }
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #3b2c58;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+    }
+    .sidebar-header {
+      text-align: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #5b4ea1;
+    }
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sidebar-menu li {
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .sidebar-menu li:hover, .sidebar-menu li.active {
+      background-color: #5b4ea1;
+    }
+    .content {
+      flex: 1;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 15px 0 0 15px;
+      margin: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      margin-bottom: 20px;
+      border-bottom: 2px solid #d288b4;
+      padding-bottom: 10px;
+    }
+    .header h2 {
+      color: #3b2c58;
+    }
+    .card {
+      background-color: #f8cde1;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #3b2c58;
+      color: white;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #d288b4;
+      border: none;
+      color: white;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #c0759e;
+    }
+    .btn-danger {
+      background-color: #dc3545;
+    }
+    .btn-danger:hover {
+      background-color: #b52a37;
+    }
+    .btn-success {
+      background-color: #28a745;
+    }
+    .btn-success:hover {
+      background-color: #1e7e34;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+      color: #3b2c58;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .summary-box {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+      padding: 15px;
+      text-align: center;
+      color: #3b2c58;
+    }
+    .summary-box h3 {
+      margin: 0 0 5px;
+      font-size: 16px;
+    }
+    .summary-box h2 {
+      font-size: 24px;
+      color: #5b4ea1;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+        .hidden {
+            display: none;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            border-radius: 5px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+        .login-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .login-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .login-button:hover {
+            background-color: #45a049;
+        }
+        .forgot-password {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .forgot-password a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        .register-link a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+       .page {
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      width: 100%;
+    }
+    </style>
+</head>
+
+<script>
+
+function showLogin() {
+    document.getElementById('loginPage').style.display = 'flex';
+    document.getElementById('signUpPage').style.display = 'none';
+}
+
+function showSignUp() {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('signUpPage').style.display = 'flex';
+}
+
+function login() {
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+
+    if (!username || !password) {
+        alert("Username dan password wajib diisi!");
+        return;
+    }
+
+    const savedUser = localStorage.getItem(`user_${username}`);
+    if (!savedUser) {
+        alert("Akun tidak ditemukan. Silakan daftar terlebih dahulu.");
+        return;
+    }
+
+    const userData = JSON.parse(savedUser);
+    if (userData.password === password) {
+        document.getElementById('loginPage').style.display = 'none';
+        document.querySelector('.container').style.display = 'flex';
+        showPage('dashboard');
+    } else {
+        alert("Password salah!");
+    }
+}
+
+function signUp() {
+    const username = document.getElementById('signUpUsername').value.trim();
+    const password = document.getElementById('signUpPassword').value.trim();
+
+    if (!username || !password) {
+        alert("Username dan password wajib diisi!");
+        return;
+    }
+
+    const existing = localStorage.getItem(`user_${username}`);
+    if (existing) {
+        alert("Username sudah terdaftar!");
+        return;
+    }
+
+    localStorage.setItem(`user_${username}`, JSON.stringify({ username, password }));
+    alert("Akun berhasil dibuat! Silakan login.");
+    showLogin();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.container').style.display = 'none';
+});
+
+function logout() {
+    document.querySelector('.container').style.display = 'none';
+    document.getElementById('loginPage').style.display = 'flex';
+    document.getElementById('signUpPage').style.display = 'none';
+    resetLoginForm();
+    resetSignUpForm();
+}
+
+function showLogin() {
+    document.getElementById('loginPage').style.display = 'flex';
+    document.getElementById('signUpPage').style.display = 'none';
+    resetLoginForm();
+}
+
+function showSignUp() {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('signUpPage').style.display = 'flex';
+    resetSignUpForm();
+}
+
+function resetLoginForm() {
+    document.getElementById('loginUsername').value = '';
+    document.getElementById('loginPassword').value = '';
+}
+
+function resetSignUpForm() {
+    document.getElementById('signUpUsername').value = '';
+    document.getElementById('signUpPassword').value = '';
+}
+
+    // Sample data
+    let items = [
+        { id: 'BRG001', name: 'Laptop Asus', category: 'Elektronik', stock: 15, price: 8000000 },
+        { id: 'BRG002', name: 'Mouse Wireless', category: 'Aksesoris', stock: 50, price: 150000 },
+        { id: 'BRG003', name: 'Keyboard Mechanical', category: 'Aksesoris', stock: 30, price: 500000 },
+        { id: 'BRG004', name: 'Monitor LED 24"', category: 'Elektronik', stock: 12, price: 1500000 },
+        { id: 'BRG005', name: 'Flashdisk 32GB', category: 'Aksesoris', stock: 100, price: 70000 }
+    ];
+
+    let suppliers = [
+        { id: 'SUP001', name: 'PT Maju Jaya', address: 'Jl. Raya No. 123, Jakarta', phone: '021-1234567', email: 'info@majujaya.com' },
+        { id: 'SUP002', name: 'CV Sentosa', address: 'Jl. Gatot Subroto No. 45, Bandung', phone: '022-7654321', email: 'contact@sentosa.co.id' },
+        { id: 'SUP003', name: 'UD Makmur', address: 'Jl. A. Yani No. 78, Surabaya', phone: '031-8765432', email: 'sales@makmur.com' }
+    ];
+
+    let orders = [
+        { 
+            id: 'PO001', 
+            date: '2025-04-15', 
+            supplierId: 'SUP001', 
+            status: 'Menunggu', 
+            items: [
+                { itemId: 'BRG001', qty: 5, price: 8000000 },
+                { itemId: 'BRG002', qty: 10, price: 150000 }
+            ] 
+        },
+        { 
+            id: 'PO002', 
+            date: '2025-04-20', 
+            supplierId: 'SUP002', 
+            status: 'Selesai', 
+            items: [
+                { itemId: 'BRG003', qty: 8, price: 500000 },
+                { itemId: 'BRG005', qty: 20, price: 70000 }
+            ] 
+        }
+    ];
+
+    let receivings = [
+        { 
+            id: 'RCV001', 
+            date: '2025-04-22', 
+            orderId: 'PO002', 
+            supplierId: 'SUP002', 
+            status: 'Diterima' 
+        }
+    ];
+
+        // Tambahkan kode fungsi edit ini ke dalam script Anda
+
+// Modal Edit Item
+function showEditItemModal(itemId) {
+    const item = items.find(i => i.id === itemId);
+    if (!item) return;
+    
+    // Isi form dengan data item yang akan diedit
+    document.getElementById('editItemId').value = item.id;
+    document.getElementById('editItemCode').value = item.id;
+    document.getElementById('editItemName').value = item.name;
+    document.getElementById('editItemCategory').value = item.category;
+    document.getElementById('editItemStock').value = item.stock;
+    document.getElementById('editItemPrice').value = item.price;
+    
+    // Tampilkan modal edit
+    showModal('editItemModal');
+}
+
+// Fungsi untuk menyimpan perubahan item yang diedit
+function saveEditedItem() {
+    const originalId = document.getElementById('editItemId').value;
+    const code = document.getElementById('editItemCode').value;
+    const name = document.getElementById('editItemName').value;
+    const category = document.getElementById('editItemCategory').value;
+    const stock = parseInt(document.getElementById('editItemStock').value);
+    const price = parseInt(document.getElementById('editItemPrice').value);
+    
+    if (!code || !name || !category || isNaN(stock) || isNaN(price)) {
+        alert('Semua field harus diisi dengan benar!');
+        return;
+    }
+    
+    // Cek apakah kode barang sudah ada (jika kode barang diganti)
+    if (code !== originalId && items.some(item => item.id === code)) {
+        alert('Kode barang sudah ada!');
+        return;
+    }
+    
+    // Cari indeks item yang diedit
+    const itemIndex = items.findIndex(i => i.id === originalId);
+    if (itemIndex === -1) return;
+    
+    // Update item
+    items[itemIndex] = {
+        id: code,
+        name: name,
+        category: category,
+        stock: stock,
+        price: price
+    };
+    
+    // Update referensi di order jika id berubah
+    if (code !== originalId) {
+        orders.forEach(order => {
+            order.items.forEach(item => {
+                if (item.itemId === originalId) {
+                    item.itemId = code;
+                }
+            });
+        });
+    }
+    
+    // Tutup modal dan refresh data
+    closeModal('editItemModal');
+    loadStockData();
+    loadDashboard();
+}
+
+// Implementasi fungsi edit item
+function editItem(itemId) {
+    showEditItemModal(itemId);
+}
+
+// Modal Edit Supplier
+function showEditSupplierModal(supplierId) {
+    const supplier = suppliers.find(s => s.id === supplierId);
+    if (!supplier) return;
+    
+    // Isi form dengan data supplier yang akan diedit
+    document.getElementById('editSupplierId').value = supplier.id;
+    document.getElementById('editSupplierCode').value = supplier.id;
+    document.getElementById('editSupplierName').value = supplier.name;
+    document.getElementById('editSupplierAddress').value = supplier.address;
+    document.getElementById('editSupplierPhone').value = supplier.phone;
+    document.getElementById('editSupplierEmail').value = supplier.email;
+    
+    // Tampilkan modal edit
+    showModal('editSupplierModal');
+}
+
+// Fungsi untuk menyimpan perubahan supplier yang diedit
+function saveEditedSupplier() {
+    const originalId = document.getElementById('editSupplierId').value;
+    const code = document.getElementById('editSupplierCode').value;
+    const name = document.getElementById('editSupplierName').value;
+    const address = document.getElementById('editSupplierAddress').value;
+    const phone = document.getElementById('editSupplierPhone').value;
+    const email = document.getElementById('editSupplierEmail').value;
+    
+    if (!code || !name || !address || !phone || !email) {
+        alert('Semua field harus diisi!');
+        return;
+    }
+    
+    // Cek apakah kode supplier sudah ada (jika kode supplier diganti)
+    if (code !== originalId && suppliers.some(supplier => supplier.id === code)) {
+        alert('Kode supplier sudah ada!');
+        return;
+    }
+    
+    // Cari indeks supplier yang diedit
+    const supplierIndex = suppliers.findIndex(s => s.id === originalId);
+    if (supplierIndex === -1) return;
+    
+    // Update supplier
+    suppliers[supplierIndex] = {
+        id: code,
+        name: name,
+        address: address,
+        phone: phone,
+        email: email
+    };
+    
+    // Update referensi di order jika id berubah
+    if (code !== originalId) {
+        orders.forEach(order => {
+            if (order.supplierId === originalId) {
+                order.supplierId = code;
+            }
+        });
+        
+        receivings.forEach(receive => {
+            if (receive.supplierId === originalId) {
+                receive.supplierId = code;
+            }
+        });
+    }
+    
+    // Tutup modal dan refresh data
+    closeModal('editSupplierModal');
+    loadSupplierData();
+}
+
+// Implementasi fungsi edit supplier
+function editSupplier(supplierId) {
+    showEditSupplierModal(supplierId);
+}
+
+    // Page navigation
+    function showPage(pageId) {
+        document.querySelectorAll('.sidebar-menu li').forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.add('hidden');
+        });
+        
+        document.getElementById(pageId).classList.remove('hidden');
+        
+        // Set active sidebar menu
+        document.querySelector(`.sidebar-menu li[onclick="showPage('${pageId}')"]`).classList.add('active');
+        
+        // Load page data
+        loadPageData(pageId);
+    }
+
+    // Modal functions
+    function showModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    function showAddItemModal() {
+        showModal('addItemModal');
+    }
+
+    function showAddSupplierModal() {
+        showModal('addSupplierModal');
+    }
+
+    function showAddOrderModal() {
+        // Populate supplier dropdown
+        const supplierSelect = document.getElementById('orderSupplier');
+        supplierSelect.innerHTML = '';
+        
+        suppliers.forEach(supplier => {
+            const option = document.createElement('option');
+            option.value = supplier.id;
+            option.textContent = supplier.name;
+            supplierSelect.appendChild(option);
+        });
+
+        // Set default date to today
+        document.getElementById('orderDate').valueAsDate = new Date();
+        
+        // Populate item dropdown
+        const orderItemSelect = document.querySelector('.orderItemSelect');
+        orderItemSelect.innerHTML = '';
+        
+        items.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = `${item.name} (Stok: ${item.stock})`;
+            orderItemSelect.appendChild(option);
+        });
+        
+        showModal('addOrderModal');
+    }
+
+    function showOrderDetails(orderId) {
+        const order = orders.find(o => o.id === orderId);
+        if (!order) return;
+        
+        const supplier = suppliers.find(s => s.id === order.supplierId);
+        
+        let content = `
+            <p><strong>No. Pesanan:</strong> ${order.id}</p>
+            <p><strong>Tanggal:</strong> ${order.date}</p>
+            <p><strong>Supplier:</strong> ${supplier ? supplier.name : 'N/A'}</p>
+            <p><strong>Status:</strong> ${order.status}</p>
+            <h3>Item Pesanan</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kode Barang</th>
+                        <th>Nama Barang</th>
+                        <th>Jumlah</th>
+                        <th>Harga Satuan</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        let totalValue = 0;
+        
+        order.items.forEach(item => {
+            const product = items.find(i => i.id === item.itemId);
+            const itemTotal = item.qty * item.price;
+            totalValue += itemTotal;
+            
+            content += `
+                <tr>
+                    <td>${item.itemId}</td>
+                    <td>${product ? product.name : 'N/A'}</td>
+                    <td>${item.qty}</td>
+                    <td>Rp ${item.price.toLocaleString()}</td>
+                    <td>Rp ${itemTotal.toLocaleString()}</td>
+                </tr>
+            `;
+        });
+        
+        content += `
+                </tbody>
+            </table>
+            <p><strong>Total Nilai:</strong> Rp ${totalValue.toLocaleString()}</p>
+        `;
+        
+        document.getElementById('orderDetailsContent').innerHTML = content;
+        
+        // Show "Terima Barang" button if status is "Menunggu"
+        const receiveAction = document.getElementById('receiveOrderAction');
+        if (order.status === 'Menunggu') {
+            receiveAction.classList.remove('hidden');
+            receiveAction.setAttribute('data-order-id', orderId);
+        } else {
+            receiveAction.classList.add('hidden');
+        }
+        
+        showModal('orderDetailsModal');
+    }
+
+    // Data loading functions
+    function loadPageData(pageId) {
+        switch(pageId) {
+            case 'dashboard':
+                loadDashboard();
+                break;
+            case 'stock':
+                loadStockData();
+                break;
+            case 'purchase':
+                loadPurchaseData();
+                break;
+            case 'receive':
+                loadReceiveData();
+                break;
+            case 'supplier':
+                loadSupplierData();
+                break;
+        }
+    }
+
+    function loadDashboard() {
+        // Update summary boxes
+        document.getElementById('totalItems').textContent = items.length;
+        
+        let totalValue = 0;
+        items.forEach(item => {
+            totalValue += item.stock * item.price;
+        });
+        document.getElementById('totalValue').textContent = `Rp ${totalValue.toLocaleString()}`;
+        
+        const pendingOrders = orders.filter(order => order.status === 'Menunggu').length;
+        document.getElementById('pendingOrders').textContent = pendingOrders;
+        
+        // Load low stock items (less than 20)
+        const lowStockTable = document.getElementById('lowStockTable');
+        lowStockTable.innerHTML = '';
+        
+        const lowStockItems = items.filter(item => item.stock < 20);
+        
+        if (lowStockItems.length === 0) {
+            lowStockTable.innerHTML = '<tr><td colspan="4" style="text-align: center;">Tidak ada barang dengan stok rendah</td></tr>';
+        } else {
+            lowStockItems.forEach(item => {
+                const row = document.createElement('tr');
+                
+                let statusClass = 'text-success';
+                let statusText = 'Aman';
+                
+                if (item.stock < 5) {
+                    statusClass = 'text-danger';
+                    statusText = 'Kritis';
+                } else if (item.stock < 10) {
+                    statusClass = 'text-warning';
+                    statusText = 'Rendah';
+                }
+                
+                row.innerHTML = `
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.stock}</td>
+                    <td><span class="${statusClass}">${statusText}</span></td>
+                `;
+                
+                lowStockTable.appendChild(row);
+            });
+        }
+    }
+
+    function loadStockData() {
+        const stockTable = document.getElementById('stockTable');
+        stockTable.innerHTML = '';
+        
+        if (items.length === 0) {
+            stockTable.innerHTML = '<tr><td colspan="7" style="text-align: center;">Tidak ada data persediaan</td></tr>';
+            return;
+        }
+        
+        items.forEach(item => {
+            const totalValue = item.stock * item.price;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.id}</td>
+                <td>${item.name}</td>
+                <td>${item.category}</td>
+                <td>${item.stock}</td>
+                <td>Rp ${item.price.toLocaleString()}</td>
+                <td>Rp ${totalValue.toLocaleString()}</td>
+                <td>
+                    <button onclick="editItem('${item.id}')">Edit</button>
+                    <button class="btn-danger" onclick="deleteItem('${item.id}')">Hapus</button>
+                </td>
+            `;
+            
+            stockTable.appendChild(row);
+        });
+    }
+
+    function loadPurchaseData() {
+        const purchaseTable = document.getElementById('purchaseTable');
+        purchaseTable.innerHTML = '';
+        
+        if (orders.length === 0) {
+            purchaseTable.innerHTML = '<tr><td colspan="7" style="text-align: center;">Tidak ada data pemesanan</td></tr>';
+            return;
+        }
+        
+        orders.forEach(order => {
+            const supplier = suppliers.find(s => s.id === order.supplierId);
+            
+            let totalItems = 0;
+            let totalValue = 0;
+            
+            order.items.forEach(item => {
+                totalItems += item.qty;
+                totalValue += item.qty * item.price;
+            });
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${order.id}</td>
+                <td>${order.date}</td>
+                <td>${supplier ? supplier.name : 'N/A'}</td>
+                <td>${totalItems}</td>
+                <td>Rp ${totalValue.toLocaleString()}</td>
+                <td>${order.status}</td>
+                <td>
+                    <button onclick="showOrderDetails('${order.id}')">Detail</button>
+                    ${order.status === 'Menunggu' ? `<button class="btn-success" onclick="receiveOrderFromList('${order.id}')">Terima</button>` : ''}
+                </td>
+            `;
+            
+            purchaseTable.appendChild(row);
+        });
+    }
+
+    function loadReceiveData() {
+        const receiveTable = document.getElementById('receiveTable');
+        receiveTable.innerHTML = '';
+        
+        if (receivings.length === 0) {
+            receiveTable.innerHTML = '<tr><td colspan="6" style="text-align: center;">Tidak ada data penerimaan</td></tr>';
+            return;
+        }
+        
+        receivings.forEach(receive => {
+            const order = orders.find(o => o.id === receive.orderId);
+            const supplier = suppliers.find(s => s.id === receive.supplierId);
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${receive.id}</td>
+              <td>${receive.date}</td>
+                <td>${receive.orderId}</td>
+                <td>${supplier ? supplier.name : 'N/A'}</td>
+                <td>${receive.status}</td>
+                <td>
+                    <button onclick="viewReceiveDetails('${receive.id}')">Detail</button>
+                </td>
+            `;
+            
+            receiveTable.appendChild(row);
+        });
+    }
+
+    function loadSupplierData() {
+        const supplierTable = document.getElementById('supplierTable');
+        supplierTable.innerHTML = '';
+        
+        if (suppliers.length === 0) {
+            supplierTable.innerHTML = '<tr><td colspan="6" style="text-align: center;">Tidak ada data supplier</td></tr>';
+            return;
+        }
+        
+        suppliers.forEach(supplier => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${supplier.id}</td>
+                <td>${supplier.name}</td>
+                <td>${supplier.address}</td>
+                <td>${supplier.phone}</td>
+                <td>${supplier.email}</td>
+                <td>
+                    <button onclick="editSupplier('${supplier.id}')">Edit</button>
+                    <button class="btn-danger" onclick="deleteSupplier('${supplier.id}')">Hapus</button>
+                </td>
+            `;
+            
+            supplierTable.appendChild(row);
+        });
+    }
+
+    // Item functions
+    function addNewItem() {
+        const code = document.getElementById('itemCode').value;
+        const name = document.getElementById('itemName').value;
+        const category = document.getElementById('itemCategory').value;
+        const stock = parseInt(document.getElementById('itemStock').value);
+        const price = parseInt(document.getElementById('itemPrice').value);
+        
+        if (!code || !name || !category || isNaN(stock) || isNaN(price)) {
+            alert('Semua field harus diisi dengan benar!');
+            return;
+        }
+        
+        // Check if item code already exists
+        if (items.some(item => item.id === code)) {
+            alert('Kode barang sudah ada!');
+            return;
+        }
+        
+        const newItem = {
+            id: code,
+            name: name,
+            category: category,
+            stock: stock,
+            price: price
+        };
+        
+        items.push(newItem);
+        
+        // Reset form and close modal
+        document.getElementById('itemCode').value = '';
+        document.getElementById('itemName').value = '';
+        document.getElementById('itemCategory').value = '';
+        document.getElementById('itemStock').value = '';
+        document.getElementById('itemPrice').value = '';
+        
+        closeModal('addItemModal');
+        
+        // Reload data
+        loadStockData();
+        loadDashboard();
+    }
+
+   
+
+    function deleteItem(itemId) {
+        // Check if item is in any order
+        const isInOrder = orders.some(order => 
+            order.items.some(item => item.itemId === itemId)
+        );
+        
+        if (isInOrder) {
+            alert('Tidak dapat menghapus barang karena sudah digunakan dalam pesanan!');
+            return;
+        }
+        
+        if (confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
+            items = items.filter(item => item.id !== itemId);
+            loadStockData();
+            loadDashboard();
+        }
+    }
+
+    // Supplier functions
+    function addNewSupplier() {
+        const code = document.getElementById('supplierCode').value;
+        const name = document.getElementById('supplierName').value;
+        const address = document.getElementById('supplierAddress').value;
+        const phone = document.getElementById('supplierPhone').value;
+        const email = document.getElementById('supplierEmail').value;
+        
+        if (!code || !name || !address || !phone || !email) {
+            alert('Semua field harus diisi!');
+            return;
+        }
+        
+        // Check if supplier code already exists
+        if (suppliers.some(supplier => supplier.id === code)) {
+            alert('Kode supplier sudah ada!');
+            return;
+        }
+        
+        const newSupplier = {
+            id: code,
+            name: name,
+            address: address,
+            phone: phone,
+            email: email
+        };
+        
+        suppliers.push(newSupplier);
+        
+        // Reset form and close modal
+        document.getElementById('supplierCode').value = '';
+        document.getElementById('supplierName').value = '';
+        document.getElementById('supplierAddress').value = '';
+        document.getElementById('supplierPhone').value = '';
+        document.getElementById('supplierEmail').value = '';
+        
+        closeModal('addSupplierModal');
+        
+        // Reload data
+        loadSupplierData();
+    }
+
+    
+
+    function deleteSupplier(supplierId) {
+        // Check if supplier is in any order
+        const isInOrder = orders.some(order => order.supplierId === supplierId);
+        
+        if (isInOrder) {
+            alert('Tidak dapat menghapus supplier karena sudah digunakan dalam pesanan!');
+            return;
+        }
+        
+        if (confirm('Apakah Anda yakin ingin menghapus supplier ini?')) {
+            suppliers = suppliers.filter(supplier => supplier.id !== supplierId);
+            loadSupplierData();
+        }
+    }
+
+    // Order functions
+    function addOrderItem() {
+        const orderItems = document.getElementById('orderItems');
+        const newItem = document.createElement('div');
+        newItem.className = 'order-item';
+        
+        newItem.innerHTML = `
+            <div class="form-group">
+                <label>Barang:</label>
+                <select class="orderItemSelect">
+                    ${items.map(item => `<option value="${item.id}">${item.name} (Stok: ${item.stock})</option>`).join('')}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Jumlah:</label>
+                <input type="number" class="orderItemQty" min="1" value="1">
+            </div>
+            <button onclick="removeOrderItem(this)" class="btn-danger">Hapus</button>
+        `;
+        
+        orderItems.appendChild(newItem);
+    }
+
+    function removeOrderItem(button) {
+        button.parentElement.remove();
+    }
+
+    function createNewOrder() {
+        const supplierId = document.getElementById('orderSupplier').value;
+        const orderDate = document.getElementById('orderDate').value;
+        
+        if (!supplierId || !orderDate) {
+            alert('Supplier dan tanggal harus diisi!');
+            return;
+        }
+        
+        const orderItemElements = document.querySelectorAll('.order-item');
+        if (orderItemElements.length === 0) {
+            alert('Pesanan harus memiliki minimal 1 item!');
+            return;
+        }
+        
+        const orderItems = [];
+        
+        orderItemElements.forEach(element => {
+            const itemId = element.querySelector('.orderItemSelect').value;
+            const qty = parseInt(element.querySelector('.orderItemQty').value);
+            
+            if (isNaN(qty) || qty <= 0) {
+                alert('Jumlah harus lebih dari 0!');
+                return;
+            }
+            
+            const item = items.find(i => i.id === itemId);
+            if (!item) {
+                alert('Barang tidak ditemukan!');
+                return;
+            }
+            
+            orderItems.push({
+                itemId: itemId,
+                qty: qty,
+                price: item.price
+            });
+        });
+        
+        // Generate new order ID
+        const orderId = 'PO' + (orders.length + 1).toString().padStart(3, '0');
+        
+        const newOrder = {
+            id: orderId,
+            date: orderDate,
+            supplierId: supplierId,
+            status: 'Menunggu',
+            items: orderItems
+        };
+        
+        orders.push(newOrder);
+        
+        // Close modal and reset form
+        closeModal('addOrderModal');
+        document.getElementById('orderItems').innerHTML = `
+            <div class="order-item">
+                <div class="form-group">
+                    <label>Barang:</label>
+                    <select class="orderItemSelect">
+                        ${items.map(item => `<option value="${item.id}">${item.name} (Stok: ${item.stock})</option>`).join('')}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Jumlah:</label>
+                    <input type="number" class="orderItemQty" min="1" value="1">
+                </div>
+            </div>
+        `;
+        
+        // Reload data
+        loadPurchaseData();
+        loadDashboard();
+    }
+
+    function receiveOrderFromList(orderId) {
+        receiveOrder(orderId);
+    }
+
+    function receiveOrder(orderId) {
+        if (!orderId) {
+            orderId = document.getElementById('receiveOrderAction').getAttribute('data-order-id');
+        }
+        
+        const order = orders.find(o => o.id === orderId);
+        if (!order) {
+            alert('Pesanan tidak ditemukan!');
+            return;
+        }
+        
+        if (order.status !== 'Menunggu') {
+            alert('Pesanan sudah diterima atau dibatalkan!');
+            return;
+        }
+        
+        // Update order status
+        order.status = 'Selesai';
+        
+        // Update stock
+        order.items.forEach(orderItem => {
+            const item = items.find(i => i.id === orderItem.itemId);
+            if (item) {
+                item.stock += orderItem.qty;
+            }
+        });
+        
+        // Create receiving record
+        const receiveId = 'RCV' + (receivings.length + 1).toString().padStart(3, '0');
+        const today = new Date().toISOString().substring(0, 10);
+        
+        const newReceiving = {
+            id: receiveId,
+            date: today,
+            orderId: orderId,
+            supplierId: order.supplierId,
+            status: 'Diterima'
+        };
+        
+        receivings.push(newReceiving);
+        
+        // Close modal if opened
+        closeModal('orderDetailsModal');
+        
+        // Reload data
+        loadPurchaseData();
+        loadReceiveData();
+        loadStockData();
+        loadDashboard();
+        
+        alert(`Pesanan ${orderId} berhasil diterima!`);
+    }
+
+    function viewReceiveDetails(receiveId) {
+        const receive = receivings.find(r => r.id === receiveId);
+        if (!receive) return;
+        
+        const order = orders.find(o => o.id === receive.orderId);
+        if (!order) return;
+        
+        showOrderDetails(order.id);
+    }
+
+    // Report functions
+    function generateReport() {
+        const reportType = document.getElementById('reportType').value;
+        const valuationMethod = document.getElementById('valuationMethod').value;
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        
+        if (!startDate || !endDate) {
+            alert('Tanggal mulai dan akhir harus diisi!');
+            return;
+        }
+        
+        let reportContent = '';
+        
+        switch(reportType) {
+            case 'stock':
+                reportContent = generateStockReport();
+                break;
+            case 'purchase':
+                reportContent = generatePurchaseReport(startDate, endDate);
+                break;
+            case 'receive':
+                reportContent = generateReceiveReport(startDate, endDate);
+                break;
+            case 'valuation':
+                reportContent = generateValuationReport(valuationMethod);
+                break;
+        }
+        
+        document.getElementById('reportResult').innerHTML = reportContent;
+    }
+
+    function generateStockReport() {
+        let content = `
+            <h3>Laporan Persediaan Barang</h3>
+            <p>Tanggal: ${new Date().toLocaleDateString()}</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kode Barang</th>
+                        <th>Nama Barang</th>
+                        <th>Kategori</th>
+                        <th>Stok</th>
+                        <th>Harga Satuan</th>
+                        <th>Total Nilai</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        let totalValue = 0;
+        
+        items.forEach(item => {
+            const itemValue = item.stock * item.price;
+            totalValue += itemValue;
+            
+            content += `
+                <tr>
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.category}</td>
+                    <td>${item.stock}</td>
+                    <td>Rp ${item.price.toLocaleString()}</td>
+                    <td>Rp ${itemValue.toLocaleString()}</td>
+                </tr>
+            `;
+        });
+        
+        content += `
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" style="text-align: right;"><strong>Total Nilai Persediaan:</strong></td>
+                        <td><strong>Rp ${totalValue.toLocaleString()}</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        `;
+        
+        return content;
+    }
+
+    function generatePurchaseReport(startDate, endDate) {
+        // Filter orders by date range
+        const filteredOrders = orders.filter(order => 
+            order.date >= startDate && order.date <= endDate
+        );
+        
+        let content = `
+            <h3>Laporan Pemesanan Barang</h3>
+            <p>Periode: ${startDate} s/d ${endDate}</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No. Pesanan</th>
+                        <th>Tanggal</th>
+                        <th>Supplier</th>
+                        <th>Jumlah Item</th>
+                        <th>Total Nilai</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        if (filteredOrders.length === 0) {
+            content += '<tr><td colspan="6" style="text-align: center;">Tidak ada data</td></tr>';
+        } else {
+            let grandTotal = 0;
+            
+            filteredOrders.forEach(order => {
+                const supplier = suppliers.find(s => s.id === order.supplierId);
+                
+                let totalItems = 0;
+                let totalValue = 0;
+                
+                order.items.forEach(item => {
+                    totalItems += item.qty;
+                    totalValue += item.qty * item.price;
+                });
+                
+                grandTotal += totalValue;
+                
+                content += `
+                    <tr>
+                        <td>${order.id}</td>
+                        <td>${order.date}</td>
+                        <td>${supplier ? supplier.name : 'N/A'}</td>
+                        <td>${totalItems}</td>
+                        <td>Rp ${totalValue.toLocaleString()}</td>
+                        <td>${order.status}</td>
+                    </tr>
+                `;
+            });
+            
+            content += `
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align: right;"><strong>Total Nilai Pemesanan:</strong></td>
+                        <td colspan="2"><strong>Rp ${grandTotal.toLocaleString()}</strong></td>
+                    </tr>
+                </tfoot>
+            `;
+        }
+        
+        content += '</table>';
+        return content;
+    }
+
+    function generateReceiveReport(startDate, endDate) {
+        // Filter receivings by date range
+        const filteredReceivings = receivings.filter(receive => 
+            receive.date >= startDate && receive.date <= endDate
+        );
+        
+        let content = `
+            <h3>Laporan Penerimaan Barang</h3>
+            <p>Periode: ${startDate} s/d ${endDate}</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No. Penerimaan</th>
+                        <th>Tanggal</th>
+                        <th>No. Pesanan</th>
+                        <th>Supplier</th>
+                        <th>Total Nilai</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        if (filteredReceivings.length === 0) {
+            content += '<tr><td colspan="5" style="text-align: center;">Tidak ada data</td></tr>';
+        } else {
+            let grandTotal = 0;
+            
+            filteredReceivings.forEach(receive => {
+                const order = orders.find(o => o.id === receive.orderId);
+                const supplier = suppliers.find(s => s.id === receive.supplierId);
+                
+                let totalValue = 0;
+                
+                if (order) {
+                    order.items.forEach(item => {
+                        totalValue += item.qty * item.price;
+                    });
+                }
+                
+                grandTotal += totalValue;
+                
+                content += `
+                    <tr>
+                        <td>${receive.id}</td>
+                        <td>${receive.date}</td>
+                        <td>${receive.orderId}</td>
+                        <td>${supplier ? supplier.name : 'N/A'}</td>
+                        <td>Rp ${totalValue.toLocaleString()}</td>
+                    </tr>
+                `;
+            });
+            
+            content += `
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align: right;"><strong>Total Nilai Penerimaan:</strong></td>
+                        <td><strong>Rp ${grandTotal.toLocaleString()}</strong></td>
+                    </tr>
+                </tfoot>
+            `;
+        }
+        
+        content += '</table>';
+        return content;
+    }
+
+    function generateValuationReport(method) {
+        let content = `
+            <h3>Laporan Penilaian Persediaan</h3>
+            <p>Metode: ${method === 'fifo' ? 'FIFO (First In First Out)' : 
+                      method === 'lifo' ? 'LIFO (Last In First Out)' : 
+                      'Average (Rata-rata)'}</p>
+            <p>Tanggal: ${new Date().toLocaleDateString()}</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kode Barang</th>
+                        <th>Nama Barang</th>
+                        <th>Stok</th>
+                        <th>Nilai Per Unit</th>
+                        <th>Total Nilai</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        let totalValue = 0;
+        
+        // Simulate different valuation methods
+        // In a real system, this would use actual transaction history
+        items.forEach(item => {
+            let unitValue = item.price;
+            
+            // Apply slight variations based on method to simulate differences
+            if (method === 'lifo') {
+                // LIFO might value inventory slightly higher in inflationary environment
+                unitValue = Math.round(item.price * 1.05);
+            } else if (method === 'average') {
+                // Average might be between FIFO and LIFO
+                unitValue = Math.round(item.price * 1.025);
+            }
+            
+            const itemValue = item.stock * unitValue;
+            totalValue += itemValue;
+            
+            content += `
+                <tr>
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.stock}</td>
+                    <td>Rp ${unitValue.toLocaleString()}</td>
+                    <td>Rp ${itemValue.toLocaleString()}</td>
+                </tr>
+            `;
+        });
+        
+        content += `
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" style="text-align: right;"><strong>Total Nilai Persediaan:</strong></td>
+                    <td><strong>Rp ${totalValue.toLocaleString()}</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+        <p><i>Catatan: Nilai persediaan dapat berbeda berdasarkan metode penilaian yang digunakan.</i></p>
+        `;
+        
+        return content;
+    }
+
+    // Initialize app
+    document.addEventListener('DOMContentLoaded', function() {
+        showPage('dashboard');
+    });
+</script>
+
+<body>
+
+    <!-- LOGIN PAGE -->
+<div id="loginPage" style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #1b1b1b;">
+    <div style="background-color: #f8cde1; padding: 40px; border-radius: 10px; width: 350px; text-align: center;">
+      <img src="logo stock nize (1).png" alt="Stocknize Logo" style="width: 240px; margin-bottom: 20px;">
+      <input type="text" id="loginUsername" placeholder="Username" style="width: 100%; padding: 10px; margin-bottom: 10px; border: none; border-radius: 6px; background-color: #3b2c58; color: white;">
+      <input type="password" id="loginPassword" placeholder="Password" style="width: 100%; padding: 10px; margin-bottom: 20px; border: none; border-radius: 6px; background-color: #3b2c58; color: white;">
+      <button onclick="login()" style="width: 100%; background-color: #d288b4; border: none; padding: 12px; border-radius: 30px; color: white; font-size: 16px;">Sign In</button>
+      <p style="margin-top: 15px; font-size: 14px;">Belum punya akun? <a href="#" onclick="showSignUp()">Sign Up</a></p>
+    </div>
+  </div>
+  
+  <!-- SIGN UP PAGE -->
+  <div id="signUpPage" style="display: none; justify-content: center; align-items: center; height: 100vh; background-color: #1b1b1b;">
+    <div style="background-color: #f8cde1; padding: 40px; border-radius: 10px; width: 350px; text-align: center;">
+      <h1 style="margin-bottom: 30px; font-family: 'Segoe UI', sans-serif; font-weight: bold; color: #3b2c58;">Buat Akun</h1>
+      <input type="text" id="signUpUsername" placeholder="Username" style="width: 100%; padding: 10px; margin-bottom: 10px; border: none; border-radius: 6px; background-color: #3b2c58; color: white;">
+      <input type="password" id="signUpPassword" placeholder="Password" style="width: 100%; padding: 10px; margin-bottom: 20px; border: none; border-radius: 6px; background-color: #3b2c58; color: white;">
+      <button onclick="signUp()" style="width: 100%; background-color: #d288b4; border: none; padding: 12px; border-radius: 30px; color: white; font-size: 16px;">Sign Up</button>
+      <p style="margin-top: 15px; font-size: 14px;">Sudah punya akun? <a href="#" onclick="showLogin()">Kembali ke Login</a></p>
+    </div>
+  </div>
+  
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div style="background: white; padding: 5px 10px; border-radius: 12px; display: inline-block;"><img src="logo stock nize (1).png" alt="Stocknize Logo" style="width: 180px;"></div>
+                <p>Sistem Informasi Akuntansi Persediaan</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active" onclick="showPage('dashboard')">Dashboard</li>
+                <li onclick="showPage('stock')">Persediaan Barang</li>
+                <li onclick="showPage('purchase')">Pemesanan Barang</li>
+                <li onclick="showPage('receive')">Penerimaan Barang</li>
+                <li onclick="showPage('supplier')">Data Supplier</li>
+                <li onclick="showPage('report')">Laporan</li>
+            </ul>
+        </div>
+        
+        <div class="content">
+
+            <div style="text-align: right; margin: 10px;">
+                <button onclick="logout()" style="background-color: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer;">Logout</button>
+              </div>
+              
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page">
+                <div class="header">
+                    <h2>Dashboard</h2>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="summary-box">
+                        <h3>Total Barang</h3>
+                        <h2 id="totalItems">0</h2>
+                    </div>
+                    <div class="summary-box">
+                        <h3>Nilai Persediaan</h3>
+                        <h2 id="totalValue">Rp 0</h2>
+                    </div>
+                    <div class="summary-box">
+                        <h3>Pesanan Tertunda</h3>
+                        <h2 id="pendingOrders">0</h2>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Barang dengan Stok Rendah</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kode Barang</th>
+                                <th>Nama Barang</th>
+                                <th>Stok Tersedia</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lowStockTable">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Stock Page -->
+            <div id="stock" class="page hidden">
+                <div class="header">
+                    <h2>Persediaan Barang</h2>
+                    <button onclick="showAddItemModal()">Tambah Barang Baru</button>
+                </div>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kode Barang</th>
+                                <th>Nama Barang</th>
+                                <th>Kategori</th>
+                                <th>Stok</th>
+                                <th>Harga Satuan</th>
+                                <th>Total Nilai</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stockTable">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Purchase Order Page -->
+            <div id="purchase" class="page hidden">
+                <div class="header">
+                    <h2>Pemesanan Barang</h2>
+                    <button onclick="showAddOrderModal()">Buat Pesanan Baru</button>
+                </div>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No. Pesanan</th>
+                                <th>Tanggal</th>
+                                <th>Supplier</th>
+                                <th>Jumlah Item</th>
+                                <th>Total Nilai</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="purchaseTable">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Receive Page -->
+            <div id="receive" class="page hidden">
+                <div class="header">
+                    <h2>Penerimaan Barang</h2>
+                </div>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No. Penerimaan</th>
+                                <th>Tanggal</th>
+                                <th>No. Pesanan</th>
+                                <th>Supplier</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="receiveTable">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Supplier Page -->
+            <div id="supplier" class="page hidden">
+                <div class="header">
+                    <h2>Data Supplier</h2>
+                    <button onclick="showAddSupplierModal()">Tambah Supplier Baru</button>
+                </div>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kode Supplier</th>
+                                <th>Nama Supplier</th>
+                                <th>Alamat</th>
+                                <th>Telepon</th>
+                                <th>Email</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="supplierTable">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Report Page -->
+            <div id="report" class="page hidden">
+                <div class="header">
+                    <h2>Laporan Persediaan</h2>
+                </div>
+                <div class="card">
+                    <div class="form-group">
+                        <label for="reportType">Jenis Laporan:</label>
+                        <select id="reportType">
+                            <option value="stock">Laporan Persediaan</option>
+                            <option value="purchase">Laporan Pemesanan</option>
+                            <option value="receive">Laporan Penerimaan</option>
+                            <option value="valuation">Laporan Penilaian Persediaan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="valuationMethod">Metode Penilaian:</label>
+                        <select id="valuationMethod">
+                            <option value="fifo">FIFO (First In First Out)</option>
+                            <option value="lifo">LIFO (Last In First Out)</option>
+                            <option value="average">Average (Rata-rata)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Tanggal Mulai:</label>
+                        <input type="date" id="startDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">Tanggal Akhir:</label>
+                        <input type="date" id="endDate">
+                    </div>
+                    <button onclick="generateReport()">Generate Laporan</button>
+                </div>
+                <div class="card">
+                    <h3>Hasil Laporan</h3>
+                    <div id="reportResult">
+                        <p>Silahkan pilih jenis laporan dan klik tombol Generate Laporan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div id="addItemModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addItemModal')">&times;</span>
+            <h2>Tambah Barang Baru</h2>
+            <div class="form-group">
+                <label for="itemCode">Kode Barang:</label>
+                <input type="text" id="itemCode" placeholder="Masukkan kode barang">
+            </div>
+            <div class="form-group">
+                <label for="itemName">Nama Barang:</label>
+                <input type="text" id="itemName" placeholder="Masukkan nama barang">
+            </div>
+            <div class="form-group">
+                <label for="itemCategory">Kategori:</label>
+                <input type="text" id="itemCategory" placeholder="Masukkan kategori">
+            </div>
+            <div class="form-group">
+                <label for="itemStock">Stok Awal:</label>
+                <input type="number" id="itemStock" placeholder="Masukkan jumlah stok awal">
+            </div>
+            <div class="form-group">
+                <label for="itemPrice">Harga Satuan:</label>
+                <input type="number" id="itemPrice" placeholder="Masukkan harga satuan">
+            </div>
+            <button onclick="addNewItem()">Simpan</button>
+        </div>
+    </div>
+
+    <!-- Add Supplier Modal -->
+    <div id="addSupplierModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addSupplierModal')">&times;</span>
+            <h2>Tambah Supplier Baru</h2>
+            <div class="form-group">
+                <label for="supplierCode">Kode Supplier:</label>
+                <input type="text" id="supplierCode" placeholder="Masukkan kode supplier">
+            </div>
+            <div class="form-group">
+                <label for="supplierName">Nama Supplier:</label>
+                <input type="text" id="supplierName" placeholder="Masukkan nama supplier">
+            </div>
+            <div class="form-group">
+                <label for="supplierAddress">Alamat:</label>
+                <input type="text" id="supplierAddress" placeholder="Masukkan alamat">
+            </div>
+            <div class="form-group">
+                <label for="supplierPhone">Telepon:</label>
+                <input type="text" id="supplierPhone" placeholder="Masukkan nomor telepon">
+            </div>
+            <div class="form-group">
+                <label for="supplierEmail">Email:</label>
+                <input type="email" id="supplierEmail" placeholder="Masukkan email">
+            </div>
+            <button onclick="addNewSupplier()">Simpan</button>
+        </div>
+    </div>
+
+    <!-- Add Order Modal -->
+    <div id="addOrderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addOrderModal')">&times;</span>
+            <h2>Buat Pesanan Baru</h2>
+            <div class="form-group">
+                <label for="orderSupplier">Supplier:</label>
+                <select id="orderSupplier">
+                    <!-- Will be populated by JavaScript -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="orderDate">Tanggal Pesanan:</label>
+                <input type="date" id="orderDate">
+            </div>
+            <h3>Item Pesanan</h3>
+            <div id="orderItems">
+                <div class="order-item">
+                    <div class="form-group">
+                        <label>Barang:</label>
+                        <select class="orderItemSelect">
+                            <!-- Will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Jumlah:</label>
+                        <input type="number" class="orderItemQty" min="1" value="1">
+                    </div>
+                </div>
+            </div>
+            <button onclick="addOrderItem()">Tambah Item</button>
+            <button onclick="createNewOrder()">Buat Pesanan</button>
+        </div>
+    </div>
+
+    <div id="editItemModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('editItemModal')">&times;</span>
+            <h2>Edit Barang</h2>
+            <input type="hidden" id="editItemId">
+            <div class="form-group">
+                <label for="editItemCode">Kode Barang:</label>
+                <input type="text" id="editItemCode" placeholder="Masukkan kode barang">
+            </div>
+            <div class="form-group">
+                <label for="editItemName">Nama Barang:</label>
+                <input type="text" id="editItemName" placeholder="Masukkan nama barang">
+            </div>
+            <div class="form-group">
+                <label for="editItemCategory">Kategori:</label>
+                <input type="text" id="editItemCategory" placeholder="Masukkan kategori">
+            </div>
+            <div class="form-group">
+                <label for="editItemStock">Stok:</label>
+                <input type="number" id="editItemStock" placeholder="Masukkan jumlah stok">
+            </div>
+            <div class="form-group">
+                <label for="editItemPrice">Harga Satuan:</label>
+                <input type="number" id="editItemPrice" placeholder="Masukkan harga satuan">
+            </div>
+            <button onclick="saveEditedItem()">Simpan Perubahan</button>
+        </div>
+    </div>
+    
+    <!-- Edit Supplier Modal -->
+    <div id="editSupplierModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('editSupplierModal')">&times;</span>
+            <h2>Edit Supplier</h2>
+            <input type="hidden" id="editSupplierId">
+            <div class="form-group">
+                <label for="editSupplierCode">Kode Supplier:</label>
+                <input type="text" id="editSupplierCode" placeholder="Masukkan kode supplier">
+            </div>
+            <div class="form-group">
+                <label for="editSupplierName">Nama Supplier:</label>
+                <input type="text" id="editSupplierName" placeholder="Masukkan nama supplier">
+            </div>
+            <div class="form-group">
+                <label for="editSupplierAddress">Alamat:</label>
+                <input type="text" id="editSupplierAddress" placeholder="Masukkan alamat">
+            </div>
+            <div class="form-group">
+                <label for="editSupplierPhone">Telepon:</label>
+                <input type="text" id="editSupplierPhone" placeholder="Masukkan nomor telepon">
+            </div>
+            <div class="form-group">
+                <label for="editSupplierEmail">Email:</label>
+                <input type="email" id="editSupplierEmail" placeholder="Masukkan email">
+            </div>
+            <button onclick="saveEditedSupplier()">Simpan Perubahan</button>
+        </div>
+    </div>
+
+    <!-- View Order Details Modal -->
+    <div id="orderDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('orderDetailsModal')">&times;</span>
+            <h2>Detail Pesanan</h2>
+            <div id="orderDetailsContent">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            <div id="receiveOrderAction" class="hidden">
+                <button onclick="receiveOrder()">Terima Barang</button>
+            </div>
+        </div>
+    </div>
+
+    
